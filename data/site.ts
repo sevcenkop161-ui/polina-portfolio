@@ -56,7 +56,7 @@ export const works: Work[] = [
     link: "https://ink-studio-swart.vercel.app",
   },
   {
-    title: "Лен Студио",
+    title: "ЛЁН",
     kind: "сайт студии красоты",
     description: "Студия красоты: маникюр, ресницы, брови. Спокойный светлый дизайн и бронирование онлайн.",
     tags: ["сайт", "онлайн-запись"],
