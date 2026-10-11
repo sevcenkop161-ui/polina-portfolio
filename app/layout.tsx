@@ -13,14 +13,10 @@ const title = "Полина Шевченко — сайты и лендинги 
 const description =
   "Веб-разработчик Полина Шевченко. Делаю сайты и лендинги, которые приносят заявки, а также интернет-магазины и Telegram-ботов. Перед стартом показываю живое демо.";
 
-// Адрес сайта нужен, чтобы ссылка на картинку-превью была полной (https://…/opengraph-image).
-// На Vercel переменная VERCEL_PROJECT_PRODUCTION_URL подставляется сама при сборке.
-// Свой домен можно задать через NEXT_PUBLIC_SITE_URL.
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+// Адрес сайта нужен, чтобы ссылка на картинку-превью была полной (https://…/opengraph-image) —
+// без этого Telegram и мессенджеры не покажут превью.
+// Если появится свой домен, его можно задать переменной NEXT_PUBLIC_SITE_URL в настройках Vercel.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://polina-sites.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
