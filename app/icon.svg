@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- логотип из шапки: два скруглённых вишнёвых овала друг над другом -->
+  <rect x="4" y="2.5" width="24" height="12.5" rx="6.25" fill="#c4224a"/>
+  <rect x="4" y="17" width="24" height="12.5" rx="6.25" fill="#c4224a"/>
+</svg>
