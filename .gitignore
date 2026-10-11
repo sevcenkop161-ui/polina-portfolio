@@ -1,0 +1,32 @@
+# зависимости
+node_modules/
+
+# сборка Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# переменные окружения (ключи, пароли) — никогда не в репозиторий
+.env*
+
+# Vercel
+.vercel
+
+# логи
+*.log
+npm-debug.log*
+
+# служебные файлы ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# редакторы
+.vscode/
+.idea/
+*.swp
+
+# черновики и промежуточные файлы
+portfolio.html
+mockups/
