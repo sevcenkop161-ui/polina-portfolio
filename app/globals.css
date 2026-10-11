@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ── Токены дизайна (палитра из portfolio.html) ──────────────
+   Тёмный тёплый фон, текст цвета кости, один акцент — вишнёвый.
+   Всё, что объявлено в @theme, Tailwind превращает в классы:
+   --color-accent → bg-accent, text-accent, border-accent …   */
+@theme {
+  --color-ink: #0f0d0e;      /* фон страницы */
+  --color-panel: #171415;    /* панели */
+  --color-panel-2: #1f1b1c;  /* карточки */
+  --color-bone: #ece4df;     /* основной текст */
+  --color-ash: #9a8f91;      /* вторичный текст */
+  --color-line: #352d2f;     /* линии */
+  --color-accent: #c4224a;   /* акцент — вишнёвый (текст, цены, номера) */
+  --color-accent-2: #c4224a; /* кнопки, точки, подсветка — тот же вишнёвый */
+
+  --font-display: var(--font-dela), "Arial Black", Impact, sans-serif;
+  --font-sans: var(--font-onest), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, Menlo, Consolas, monospace;
+
+  /* Точки адаптива как в превью: sm ≥ 560px, md ≥ 900px */
+  --breakpoint-sm: 35rem;
+  --breakpoint-md: 56.25rem;
+}
+
+@layer base {
+  html {
+    /* плавную прокрутку делает Lenis (components/SmoothScroll.tsx), CSS-вариант конфликтовал бы с ним */
+    color-scheme: dark;
+    background: var(--color-ink);
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  h2 { font-size: clamp(34px, 6vw, 64px); letter-spacing: -0.01em; }
+  h3 { font-size: clamp(18px, 2vw, 22px); letter-spacing: 0.01em; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection { background: var(--color-accent-2); color: #fff; }
+}
+
+/* Мелкий моноширинный текст: навигация, подписи */
+@utility mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+/* Секция-панель */
+@utility panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  padding: clamp(20px, 4vw, 48px);
+}
+
+@layer components {
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 1px solid var(--color-line);
+    border-radius: 99px;
+    padding: 5px 11px;
+    color: var(--color-ash);
+    white-space: nowrap;
+  }
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid var(--color-bone);
+    border-radius: 10px;
+    padding: 13px 22px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .btn:hover { background: var(--color-bone); color: var(--color-ink); }
+  .btn-solid { background: var(--color-accent-2); border-color: var(--color-accent-2); color: #fff; }
+  .btn-solid:hover { border-color: var(--color-bone); }
+}
+
+/* ── Появление при скролле ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Построчное появление заголовков (components/RevealTitle.tsx) ── */
+/* пока строки не измерены — прячем, чтобы заголовок не мигнул.
+   Без JavaScript его покажет <noscript>-стиль в app/layout.tsx.
+   Страховка: если скрипт не сработает, через 3 с заголовок всё равно появится */
+.split-title:not(.split-ready) {
+  visibility: hidden;
+  animation: split-failsafe 0s 3s forwards;
+}
+@keyframes split-failsafe { to { visibility: visible; } }
+/* маска строки; запас по 0.12em сверху и снизу, чтобы не обрезать Й и Ё */
+.split-line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+.split-inner {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.9s cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+.split-title.is-in .split-inner {
+  transform: none;
+}
+
+/* ── Подпись «Полина» дописывается: маска-градиент уезжает слева направо ── */
+.sig-write {
+  -webkit-mask-image: linear-gradient(90deg, #000 45%, transparent 55%);
+  mask-image: linear-gradient(90deg, #000 45%, transparent 55%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+  animation: sig-write 2.2s cubic-bezier(0.55, 0.1, 0.3, 1) 0.6s forwards;
+}
+@keyframes sig-write {
+  to { -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
+
+/* ── Навыки «кучей» (components/SkillPile.tsx) ── */
+.skill-pile {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 300px;
+  margin-top: 28px;
+}
+.skill-dot {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  top: var(--y);
+  background: #6e5a60; /* приглушённый серо-розовый */
+  opacity: 0.55;
+  transform: translateX(-50%);
+}
+.skill-tag {
+  position: absolute;
+  z-index: 1;
+  left: var(--x);
+  top: var(--y);
+  padding: 14px 28px;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--color-bone);
+  /* центр по --x, поворот на свой угол */
+  transform: translate(-50%, 0) rotate(var(--r));
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+}
+.skill-tag--fill {
+  background: var(--color-accent);
+}
+.skill-tag--line {
+  background: var(--color-panel-2);
+  border: 1.5px solid rgb(236 228 223 / 0.75);
+}
+/* наведение: приподнять, выпрямить, поверх остальных */
+.skill-tag:hover {
+  z-index: 10;
+  transform: translate(-50%, -4px) rotate(0deg) scale(1.05);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.45);
+}
+
+/* падение сверху с отскоком: удар → два затухающих подскока → лежит под своим углом.
+   До начала (пока идёт задержка) плашка держит первый кадр — невидима наверху */
+.skill-pile:not(.is-in) .skill-tag {
+  opacity: 0;
+}
+.skill-pile.is-in .skill-tag {
+  animation: tag-drop 0.9s var(--d) backwards; /* backwards: держим первый кадр только во время задержки, после падения :hover снова работает */
+}
+@keyframes tag-drop {
+  0%   { opacity: 0; transform: translate(-50%, -240px) rotate(calc(var(--r) * -1.6)); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  30%  { opacity: 1; }
+  55%  { transform: translate(-50%, 0) rotate(var(--r)); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  72%  { transform: translate(-50%, -22px) rotate(calc(var(--r) * 0.8)); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  86%  { transform: translate(-50%, 0) rotate(var(--r)); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  93%  { transform: translate(-50%, -7px) rotate(var(--r)); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { opacity: 1; transform: translate(-50%, 0) rotate(var(--r)); }
+}
+
+/* телефон: меньше шрифт, ниже контейнер, свои координаты */
+@media (max-width: 599px) {
+  .skill-pile { height: 246px; margin-top: 22px; }
+  .skill-dot { top: var(--ym); }
+  .skill-tag {
+    left: var(--xm);
+    top: var(--ym);
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+}
+
+/* ── Плёночное зерно ── */
+.grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 0.8s steps(4) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-3%, 2%); }
+  50%  { transform: translate(2%, -3%); }
+  75%  { transform: translate(-2%, -1%); }
+  100% { transform: translate(1%, 3%); }
+}
+
+/* ── Пиксельный курсор-рука ──
+   Системный курсор из SVG: браузер рисует его сам, без JavaScript и задержек.
+   Числа 11 1 — «горячая точка»: кончик пальца, именно он нажимает.
+   После запятой — запасной курсор, если картинка не загрузится. */
+html {
+  cursor: url("/cursors/hand.svg") 11 1, auto;
+}
+a, button, [role="button"], label, summary, select {
+  cursor: url("/cursors/hand-hover.svg") 11 1, pointer;
+}
+input, textarea {
+  cursor: text;
+}
+
+/* Уважение к системной настройке «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .grain { animation: none; }
+  .split-title:not(.split-ready) { visibility: visible; }
+  .split-inner { transform: none; transition: none; }
+  .sig-write { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .skill-pile:not(.is-in) .skill-tag { opacity: 1; }
+  .skill-pile.is-in .skill-tag { animation: none; }
+  .skill-tag, .skill-tag:hover { transition: none; transform: translate(-50%, 0) rotate(var(--r)); }
+}
