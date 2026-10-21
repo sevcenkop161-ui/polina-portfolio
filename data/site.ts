@@ -24,7 +24,6 @@ export type Work = {
   kind: string;          // мелкая подпись над названием
   description: string;
   tags: string[];        // плашки поверх превью
-  wide?: boolean;        // широкая карточка (на десктопе 2 в ряд вместо 3)
   thumb?: "barber" | "ink" | "len"; // SVG-заглушка, пока нет скриншота
   image?: string;        // мокап из public/, например "/works/stalbarber.png"
   scroll?: string;       // длинный скриншот сайта — прокручивается в экране ноутбука при наведении
@@ -33,6 +32,16 @@ export type Work = {
 };
 
 export const works: Work[] = [
+  {
+    title: "MOM кондитер",
+    kind: "сайт кондитера",
+    description: "Сайт-визитка для домашнего кондитера: каталог тортов и начинок, клиент выбирает десерт и отправляет заказ в Telegram в один клик. Хозяйка сама меняет цены, даты и добавляет новые десерты через простую админку.",
+    tags: ["каталог десертов", "заказ в Telegram", "админка для клиента", "адаптив"],
+    image: "/works/momkonditer.png",
+    scroll: "/works/momkonditer-full.jpg",
+    front: "/works/momkonditer-phone.png",
+    link: "https://momkonditer.github.io",
+  },
   {
     title: "Stal Barber",
     kind: "сайт барбершопа",
@@ -93,7 +102,7 @@ export const steps = [
 export const stack = ["next.js", "react", "typescript", "tailwind", "supabase", "python", "telegram bot api"];
 
 export const facts = [
-  { value: "3", label: "проекта в портфолио" },
+  { value: "4", label: "проекта в портфолио" },
   { value: "от 1 дня", label: "на простой лендинг" },
   { value: "демо", label: "к каждой работе можно потрогать руками" },
   { value: "правки", label: "включены в стоимость" },

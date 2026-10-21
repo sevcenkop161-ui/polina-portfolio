@@ -1,5 +1,6 @@
 // Генератор мокапов для портфолио.
 // Запуск: node scripts/mockups.mjs
+// Только некоторые сайты: node scripts/mockups.mjs momkonditer len-studio
 //
 // 1) Playwright снимает первый экран каждого сайта: десктоп 1440×900 и телефон 390×844.
 // 2) Скриншоты подставляются в HTML-сцену (стена, стол, ноутбук, телефон).
@@ -11,11 +12,15 @@ import { chromium } from "playwright";
 import { mkdir, readFile, copyFile } from "node:fs/promises";
 import path from "node:path";
 
-const sites = [
+const allSites = [
+  { file: "momkonditer", url: "https://momkonditer.github.io" },
   { file: "ink-studio", url: "https://ink-studio-swart.vercel.app" },
   { file: "stalbarber", url: "https://stal-barber.vercel.app" },
   { file: "len-studio", url: "https://len-studio.vercel.app" },
 ];
+// имена сайтов из командной строки (без флагов) — снимаем только их
+const only = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const sites = only.length ? allSites.filter((s) => only.includes(s.file)) : allSites;
 
 const OUT = path.resolve("mockups");
 const SHOTS = path.join(OUT, "shots");
