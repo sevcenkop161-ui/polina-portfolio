@@ -97,10 +97,9 @@ export default function WorkCard({ work }: { work: Work }) {
           <WorkThumb thumb={work.thumb} />
         )}
 
-        {/* На узких карточках все плашки не помещаются в строку — там показываем первые две */}
-        <div className="absolute left-3 right-3 top-3 z-[2] flex gap-1.5">
-          {work.tags.map((t, i) => (
-            <span key={t} className={`tag !bg-panel !px-2.5 !text-[11px] !text-bone ${i > 1 ? "max-xl:hidden" : ""}`}>
+        <div className="absolute left-3 top-3 z-[2] flex gap-1.5">
+          {work.tags.map((t) => (
+            <span key={t} className="tag !bg-panel !text-bone">
               {t}
             </span>
           ))}

@@ -36,7 +36,7 @@ export const works: Work[] = [
     title: "MOM кондитер",
     kind: "сайт кондитера",
     description: "Сайт-визитка для домашнего кондитера: каталог тортов и начинок, клиент выбирает десерт и отправляет заказ в Telegram в один клик. Хозяйка сама меняет цены, даты и добавляет новые десерты через простую админку.",
-    tags: ["каталог десертов", "заказ в Telegram", "админка для клиента", "адаптив"],
+    tags: ["каталог десертов", "заказ в Telegram"],
     image: "/works/momkonditer.png",
     scroll: "/works/momkonditer-full.jpg",
     front: "/works/momkonditer-phone.png",

@@ -9,7 +9,7 @@ export default function Works() {
     <section id="works" className="panel scroll-mt-24">
       <SectionHead
         title="Работы"
-        text="Сайты для студий и мастеров: от идеи и дизайна до запуска и онлайн-записи."
+        text="Сайты для мастеров и малого бизнеса: от идеи и дизайна до запуска."
       />
       <div className="grid gap-4 sm:grid-cols-2">
         {works.map((w, i) => (
